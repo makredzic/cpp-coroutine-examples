@@ -1,5 +1,5 @@
 #pragma once
 
-namespace TestNamespace {
+namespace SCon {
     int ligma();
 }

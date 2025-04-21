@@ -1,6 +1,6 @@
-project('MesonExampleProject', 'cpp',
+project('SimpleCppCoroutines', 'cpp',
   version : '0.1',
-  default_options : ['warning_level=3'])
+  default_options : ['warning_level=3', 'cpp_std=c++17'])
 
 
 
@@ -14,10 +14,12 @@ incdir = include_directories('include')
 subdir('src')
 
 
+
+
 exe = executable(
     'main', 
     source_files, # this variable is not defined in this meson.build but its hoisted from the subdir call above
-    install : true, 
-    include_directories: incdir
+    include_directories: incdir,
+    dependencies: dependency('threads')
 )
 
