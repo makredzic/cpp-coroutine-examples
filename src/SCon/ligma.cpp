@@ -1,4 +1,3 @@
-#include <SCon/scope.hpp>
 
 
 namespace SCon {
