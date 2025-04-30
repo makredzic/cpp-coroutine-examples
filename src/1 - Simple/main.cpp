@@ -109,9 +109,11 @@ int main() {
     const auto handle = retObj.getHandle();
     std::cout << "coroutine is done? = " << handle.done() << std::endl;
 
-    // 7. resume the coroutine
+    // 7. Main thread resumes the coroutine and goes on
+    // to execute its body where it left off
     handle.resume();
 
+    // Main thread is back after the foo() coroutine suspended again
     TRACE();
     std::cout << "coroutine is done? = " << handle.done() << std::endl;
 

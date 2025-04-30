@@ -80,15 +80,17 @@ int main() {
 
     ReturnObject retObj = foo();
 
-    //6. Foo was suspended and now we're back in main
+    // Foo was suspended and now we're back in main
     TRACE();
 
     const auto handle = retObj.getHandle();
     std::cout << "coroutine is done? = " << handle.done() << std::endl;
 
-    // 7. resume the coroutine
+    // Resume the coroutine (main thread goes on to execute the coroutine where it left off)
     handle.resume();
 
+
+    // Main thread is back after another suspension
     TRACE();
     std::cout << "coroutine is done? = " << handle.done() << std::endl;
 
