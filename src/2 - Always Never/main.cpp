@@ -11,8 +11,13 @@ struct SuspendAlways {
         TRACE(); // added here for demonstration purposes
         return false;
     }
-    constexpr void await_suspend(std::coroutine_handle<> _) const noexcept { }
-    constexpr void await_resume() const noexcept { }
+
+    // !!!! NOTE !!!!
+    // The coroutine is FULLY SUSPENDED right before entering this function
+    void await_suspend(std::coroutine_handle<> _) const noexcept { TRACE(); }
+
+    // Called when the coroutine is being resumed
+    void await_resume() const noexcept { TRACE(); }
 };
 
 // The literal implementation of std::suspend_never
@@ -21,8 +26,13 @@ struct SuspendNever {
         TRACE(); // added here for demonstration purposes
         return true;
     }
-    constexpr void await_suspend(std::coroutine_handle<> _) const noexcept { }
-    constexpr void await_resume() const noexcept { }
+
+    // WONT EVER BE CALLED SINCE await_ready is always TRUE
+    // therefore, no suspension ever happens here
+    void await_suspend(std::coroutine_handle<> _) const noexcept { TRACE(); }
+
+    // Called immediately after await_ready 
+    void await_resume() const noexcept { TRACE(); }
 };
 
 class ReturnObject {
@@ -70,6 +80,12 @@ ReturnObject foo() {
     // SUSPEND
     co_await SuspendAlways{};
 
+    // if this replaces the line above, coroutine must not be resumed by handle.resume() below
+    // because it would have finished already by then
+    // since this won't suspend it and it will just continue
+    // calling resume on a finished coroutine will result in a seg fault
+    // co_await SuspendNever{};
+
     std::cout << "2. Hello again from foo\n";
 
 }
@@ -87,7 +103,7 @@ int main() {
     std::cout << "coroutine is done? = " << handle.done() << std::endl;
 
     // Resume the coroutine (main thread goes on to execute the coroutine where it left off)
-    handle.resume();
+    handle.resume(); // <--- comment out if SuspendNever is used above instead of SuspendAlways
 
 
     // Main thread is back after another suspension
