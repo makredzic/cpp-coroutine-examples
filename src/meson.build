@@ -3,4 +3,5 @@
 # source_files gets hoisted to the root meson.build
 # these source files can actually be used
 
-source_files = files('main.cpp')
+source_files1 = files('1 - Simple/main.cpp')
+source_files2 = files('2 - Always Never/main.cpp')
