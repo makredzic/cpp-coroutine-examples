@@ -4,4 +4,3 @@
 # these source files can actually be used
 
 source_files = files('main.cpp')
-subdir('SCon')
