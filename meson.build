@@ -4,7 +4,7 @@ project('SimpleCppCoroutines', 'cpp',
 
 
 
-incdir = include_directories('include')
+#incdir = include_directories('include')
 
 
 # Jumps into the src/ subdir and executes the meson.build there
@@ -19,7 +19,7 @@ subdir('src')
 executable(
     'main1', 
     source_files1, # this variable is not defined in this meson.build but its hoisted from the subdir call above
-    include_directories: incdir,
+    #include_directories: incdir,
     dependencies: dependency('threads')
 )
 
@@ -27,6 +27,6 @@ executable(
 executable(
     'main2', 
     source_files2, # this variable is not defined in this meson.build but its hoisted from the subdir call above
-    include_directories: incdir,
+    #include_directories: incdir,
     dependencies: dependency('threads')
 )
